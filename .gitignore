@@ -1,4 +1,10 @@
+// ignore all node_modules directories
 node_modules/
+
+// ignore all files in the public directory
+public/
 dist/
+
+// ignore env files
 .env
 .DS_Store
