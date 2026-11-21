@@ -17,7 +17,7 @@ export function App() {
 			{/* Menu DEBUG - Affiché en haut si DEBUG_MODE est activé */}
 			{DEBUG_MODE && (
 				<div className='fixed top-4 right-4 z-50 bg-black/90 text-white p-4 rounded-lg shadow-2xl border border-gray-700'>
-					<p className='text-xs font-bold mb-2 text-yellow-400'>🐛 DEBUG MODE</p>
+					<p className='text-xs font-bold mb-2 text-yellow-400'>✨ Revivre le voyage</p>
 					<div className='flex flex-col gap-2'>
 						<button
 							type='button'

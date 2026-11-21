@@ -133,7 +133,7 @@ export default function Conclusion({ userName }: ConclusionProps) {
 				</div>
 
 				{/* Enveloppe */}
-				<div className='envelope-wrapper relative mx-auto w-[800px] h-auto'>
+				<div className='envelope-wrapper relative mx-auto w-full max-w-[800px] h-auto'>
 					{/* Lettre (derrière l'enveloppe, monte quand ouverte) */}
 					<div
 						ref={letterRef}

@@ -26,7 +26,7 @@ export default function Enigma1({ userName, onComplete }: Enigma1Props) {
 	const [lastClickedId, setLastClickedId] = useState<number | null>(null)
 	const containerRef = useRef<HTMLDivElement>(null)
 	const mapsRef = useRef<{
-		[key: string]: { map: L.Map; markers: Map<number, L.CircleMarker>; lines: L.Polyline[] }
+		[key: string]: { map: L.Map; markers: Map<number, L.CircleMarker> }
 	}>({})
 	const handleLocationClickRef = useRef<((id: number) => void) | null>(null)
 
@@ -160,12 +160,12 @@ export default function Enigma1({ userName, onComplete }: Enigma1Props) {
 			zoomControl: false,
 			dragging: false,
 			doubleClickZoom: false,
-			attributionControl: false,
 		})
 
 		// Ajouter le tile layer (carte de fond)
-		L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+		L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 		}).addTo(map)
 
 		// Créer les marqueurs
@@ -195,12 +195,12 @@ export default function Enigma1({ userName, onComplete }: Enigma1Props) {
 			}
 		})
 
-		mapsRef.current[zone] = { map, markers, lines: [] }
+		mapsRef.current[zone] = { map, markers }
 	}
 
-	// Mettre à jour les marqueurs et les lignes
+	// Mettre à jour les marqueurs
 	useEffect(() => {
-		Object.entries(mapsRef.current).forEach(([zone, { markers, lines, map }]) => {
+		Object.entries(mapsRef.current).forEach(([zone, { markers }]) => {
 			const zoneLocations = locations.filter((loc) => loc.zone === zone)
 
 			// Mettre à jour l'apparence des marqueurs
@@ -219,37 +219,6 @@ export default function Enigma1({ userName, onComplete }: Enigma1Props) {
 					weight: isClicked ? 4 : 3,
 				})
 			})
-
-			// Supprimer les anciennes lignes
-			for (const line of lines) {
-				map.removeLayer(line)
-			}
-			mapsRef.current[zone as 'versailles' | 'paris17' | 'paris16' | 'gennevilliers'].lines = []
-
-			// Dessiner les nouvelles lignes
-			const newLines: L.Polyline[] = []
-			for (let i = 0; i < clickedLocations.length - 1; i++) {
-				const fromLoc = locations.find((l) => l.id === clickedLocations[i])
-				const toLoc = locations.find((l) => l.id === clickedLocations[i + 1])
-
-				if (fromLoc && toLoc && fromLoc.zone === zone && toLoc.zone === zone) {
-					const line = L.polyline(
-						[
-							[fromLoc.lat, fromLoc.lng],
-							[toLoc.lat, toLoc.lng],
-						],
-						{
-							color: '#fb7185',
-							weight: 2,
-							dashArray: '5, 5',
-							opacity: 0.7,
-						},
-					)
-					line.addTo(map)
-					newLines.push(line)
-				}
-			}
-			mapsRef.current[zone as 'versailles' | 'paris17' | 'paris16' | 'gennevilliers'].lines = newLines
 		})
 	}, [clickedLocations, lastClickedId])
 

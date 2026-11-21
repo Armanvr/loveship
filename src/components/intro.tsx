@@ -180,7 +180,7 @@ export default function Introduction({ onComplete }: { onComplete: (name: string
 								onMouseEnter={() => setShowHeart(true)}
 								onMouseLeave={() => setShowHeart(false)}
 								onClick={handleHeartReveal}
-								className='relative inline-block cursor-pointer position-absolute top-50 left-90'
+								className='relative inline-block cursor-pointer md:top-50 md:left-90'
 							>
 								{/* Texte indicateur */}
 								<div
