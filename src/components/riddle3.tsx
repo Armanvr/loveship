@@ -60,12 +60,7 @@ const CONSTELLATIONS: Record<ConstellationId, ConstellationData> = {
 			{ id: 'ruchbah', name: 'Ruchbah', x: 520, y: 200 },
 			{ id: 'segin', name: 'Segin', x: 640, y: 290 },
 		],
-		connections: new Set([
-			'caph-schedar',
-			'caph-gamma',
-			'gamma-ruchbah',
-			'ruchbah-segin',
-		]),
+		connections: new Set(['caph-schedar', 'caph-gamma', 'gamma-ruchbah', 'ruchbah-segin']),
 		interactive: false,
 	},
 	'grande-ourse': {
@@ -198,7 +193,7 @@ export default function Enigma3({ userName, onComplete }: Enigma3Props) {
 		})
 	}, [drawAnimDone])
 
-	const handleChoose =(id: ConstellationId) => {
+	const handleChoose = (id: ConstellationId) => {
 		gsap.to('.choice-card', {
 			opacity: 0,
 			y: -20,
@@ -344,8 +339,7 @@ export default function Enigma3({ userName, onComplete }: Enigma3Props) {
 					<div className='text-center space-y-3'>
 						<h2 className='text-4xl font-light text-white'>Énigme 3</h2>
 						<p className='text-lg text-indigo-300'>
-							Choisis ta constellation,{' '}
-							<span className='font-bold text-amber-400'>{userName}</span>
+							Choisis ta constellation, <span className='font-bold text-amber-400'>{userName}</span>
 						</p>
 					</div>
 
@@ -446,7 +440,9 @@ export default function Enigma3({ userName, onComplete }: Enigma3Props) {
 									y1={starA.y}
 									x2={starB.x}
 									y2={starB.y}
-									stroke={constellation.interactive ? (isFound ? '#818cf8' : 'transparent') : '#818cf8'}
+									stroke={
+										constellation.interactive ? (isFound ? '#818cf8' : 'transparent') : '#818cf8'
+									}
 									strokeWidth={2}
 									strokeLinecap='round'
 								/>
