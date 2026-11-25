@@ -1,0 +1,18 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"rewrites": [
+		{ "source": "/api/assets/:id", "destination": "/api/assets?id=:id" },
+		{ "source": "/((?!api/).*)", "destination": "/index.html" }
+	],
+	"headers": [
+		{
+			"source": "/(.*)",
+			"headers": [
+				{ "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+				{ "key": "Content-Security-Policy", "value": "frame-ancestors 'none'" },
+				{ "key": "X-Content-Type-Options", "value": "nosniff" },
+				{ "key": "Referrer-Policy", "value": "no-referrer" }
+			]
+		}
+	]
+}

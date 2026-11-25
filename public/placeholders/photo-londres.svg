@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9d1dc"/><stop offset="1" stop-color="#f1e6d6"/></linearGradient></defs>
+<rect width="1200" height="800" fill="url(#s)"/>
+<g fill="#8f9bb0" fill-opacity="0.8"><rect x="90" y="380" width="120" height="260"/><rect x="230" y="320" width="90" height="320"/><rect x="340" y="420" width="150" height="220"/><rect x="520" y="250" width="60" height="390"/><polygon points="520,250 550,170 580,250"/><rect x="620" y="400" width="130" height="240"/><rect x="780" y="340" width="100" height="300"/><rect x="900" y="440" width="200" height="200"/></g>
+<rect y="640" width="1200" height="160" fill="#b9c3cf"/>
+<g stroke="#f1e6d6" stroke-width="3" stroke-opacity="0.7"><line x1="100" y1="690" x2="480" y2="690"/><line x1="620" y1="730" x2="1000" y2="730"/></g>
+<circle cx="930" cy="190" r="60" fill="#f6e7c8"/>
+<text x="600.0" y="766" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25" letter-spacing="4" fill="#382d29" fill-opacity="0.5">PHOTOGRAPHIE PROVISOIRE · 3 / 6</text>
+</svg>

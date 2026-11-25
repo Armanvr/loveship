@@ -1,0 +1,193 @@
+/* Fin de l'expérience : transition, seconde enveloppe, promesse, bouquet, carte souvenir. */
+
+/* La page s'éclaircit vers le champagne ; --paper est déjà transitionnée par index.css (@property). */
+html[data-step][data-step="SECOND_ENVELOPE"] {
+	--paper: color-mix(in srgb, var(--color-champagne) 22%, var(--color-ivory-bright));
+}
+html[data-step][data-step="PROMISE"] {
+	--paper: color-mix(in srgb, var(--color-champagne) 32%, var(--color-ivory-bright));
+}
+html[data-step][data-step="BOUQUET"],
+html[data-step][data-step="KEEPSAKE"] {
+	--paper: color-mix(in srgb, var(--color-champagne) 26%, var(--color-ivory-bright));
+}
+
+@layer components {
+	/* --- Transition et seconde enveloppe --- */
+	.finale-transition {
+		width: var(--sheet-width);
+		margin-inline: auto;
+		padding-top: 14svh;
+		text-align: center;
+	}
+	.finale-transition-text {
+		max-width: 30rem;
+		margin-inline: auto;
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: clamp(1.45rem, 1.1rem + 1.4vw, 1.95rem);
+		line-height: 1.5;
+		text-wrap: balance;
+	}
+
+	.envelope-stage {
+		position: relative;
+		isolation: isolate;
+		overflow-x: clip; /* la lumière déborde de l'enveloppe, jamais de l'écran */
+		display: grid;
+		justify-items: center;
+		/* Une fois ouvert, le rabat se relève au-dessus de l'enveloppe : on lui laisse la place (0,38 x largeur). */
+		margin-block: calc(min(86vw, 36rem) * 0.4 + 4svh) 6svh;
+	}
+	/* Lumière champagne derrière l'enveloppe : seule l'opacité évolue. */
+	.envelope-stage::before {
+		content: "";
+		position: absolute;
+		inset: -35% -30%;
+		z-index: -1;
+		background: radial-gradient(closest-side, rgb(229 211 181 / 0.55), transparent);
+		opacity: 0;
+		transition: opacity var(--duration-light) ease;
+		pointer-events: none;
+	}
+	html:is([data-step="SECOND_ENVELOPE"], [data-step="PROMISE"], [data-step="BOUQUET"], [data-step="KEEPSAKE"])
+		.envelope-stage::before {
+		opacity: 1;
+	}
+
+	.wax-seal {
+		display: block;
+		width: clamp(3rem, 11vw, 5rem);
+		aspect-ratio: 1;
+		filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.38));
+	}
+
+	/* --- Promesse : plus étroite, plus aérée, plus intime que la lettre --- */
+	.promise {
+		width: min(26rem, 100% - 2 * var(--spacing-gutter));
+		margin-inline: auto;
+		padding-block: 8svh 6svh;
+	}
+	.promise:focus {
+		outline: none;
+	}
+	.promise > * + * {
+		margin-top: 2.6rem;
+	}
+	.promise-text {
+		font-size: 1.0625rem;
+		line-height: 2.05;
+		text-wrap: pretty;
+	}
+	.promise-signature {
+		margin-top: 5rem;
+		text-align: end;
+		font-family: var(--font-display);
+		font-style: italic;
+		font-weight: 500;
+		font-size: clamp(2.5rem, 2rem + 2vw, 3.2rem);
+		line-height: 1;
+		color: var(--color-bordeaux);
+	}
+
+	/* --- Cadre commun à la scène florale et à la carte --- */
+	.finale-frame {
+		--card-w: max(
+			18rem,
+			min(62rem, 100vw - 2rem - env(safe-area-inset-left) - env(safe-area-inset-right), (100svh - 4rem) * 1.5)
+		);
+		--scene-k: 1.12;
+		--extra-w: calc(var(--card-w) * var(--extra) / 100 * (var(--scene-k) - 1));
+	}
+	/* Smartphone portrait : la carte reste en 3:2 mais le bouquet se joue bien plus grand que sa place sur la carte. */
+	@media (max-width: 40rem) {
+		.finale-frame {
+			--scene-k: 2;
+		}
+	}
+	.finale-stage {
+		position: relative;
+		width: var(--card-w);
+		aspect-ratio: 3 / 2;
+		margin-inline: auto;
+		container-type: inline-size;
+	}
+
+	/* --- Bouquet --- */
+	.bouquet {
+		padding-top: calc(var(--spacing-breath) + var(--extra-w));
+		padding-bottom: var(--extra-w);
+	}
+	.bouquet-art {
+		position: absolute;
+		z-index: 2; /* au-dessus de la carte, qui se découvre dessous */
+		overflow: visible;
+		pointer-events: none;
+		transform: translate(var(--dx), var(--dy)) scale(var(--scene-k));
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.bouquet-art {
+			transform: none;
+		}
+	}
+
+	/* --- Carte souvenir --- */
+	.keepsake {
+		position: relative;
+		margin-top: calc(var(--card-w) * -2 / 3 - var(--extra-w));
+		padding-bottom: 2rem;
+	}
+	/* Tant que le bouquet n'est pas achevé, la carte est montée mais invisible et inatteignable. */
+	.keepsake:not([data-ready]) :is(.keepsake-paper, .keepsake-line, .keepsake-rule, .keepsake-actions) {
+		visibility: hidden;
+	}
+	.keepsake-paper {
+		position: absolute;
+		inset: 0;
+		background-color: var(--color-ivory);
+		background-image: url("/textures/paper.svg");
+		background-size: 32cqw 32cqw;
+		box-shadow: var(--shadow-print);
+	}
+	.keepsake-line {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+		font-family: var(--font-display);
+		line-height: 1;
+		white-space: nowrap;
+	}
+	.keepsake-line[data-kind="name"] {
+		color: var(--color-bordeaux);
+	}
+	.keepsake-line[data-kind="date"] {
+		color: color-mix(in srgb, var(--color-ink) 72%, transparent);
+	}
+	.keepsake-rule {
+		position: absolute;
+		height: 1px;
+		background: #c9b085;
+	}
+	.keepsake-actions {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.25rem;
+		margin-top: 1.75rem;
+		text-align: center;
+	}
+	.keepsake-status {
+		min-height: 1.75rem;
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: 1.05rem;
+		color: color-mix(in srgb, var(--color-ink) 62%, transparent);
+	}
+	.keepsake-preview {
+		width: min(100% - 2rem, 36rem);
+		margin-top: 1rem;
+		box-shadow: var(--shadow-print);
+	}
+}

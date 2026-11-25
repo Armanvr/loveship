@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" width="1500" height="900">
+<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1d9c8"/><stop offset="1" stop-color="#faf0d9"/></linearGradient></defs>
+<rect width="1500" height="900" fill="url(#s)"/>
+<circle cx="750" cy="470" r="150" fill="#fbf2d6"/>
+<g stroke="#f7e6bd" stroke-width="6" stroke-opacity="0.7" stroke-linecap="round"><line x1="750" y1="230" x2="750" y2="270"/><line x1="560" y1="280" x2="585" y2="312"/><line x1="940" y1="280" x2="915" y2="312"/><line x1="470" y1="390" x2="510" y2="404"/><line x1="1030" y1="390" x2="990" y2="404"/></g>
+<path d="M0 560 Q300 470 620 540 T1500 520 V900 H0Z" fill="#c6c9a8"/>
+<path d="M0 680 Q400 600 800 670 T1500 650 V900 H0Z" fill="#a9b58f"/>
+<text x="750.0" y="866" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="31" letter-spacing="4" fill="#382d29" fill-opacity="0.5">PHOTOGRAPHIE PROVISOIRE · 6 / 6</text>
+</svg>

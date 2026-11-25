@@ -5,15 +5,28 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), ver
 
 ## [Non publié]
 
-### Corrigé
+## [2.0.0] - 2026-11-25
 
-- `npm run lint` passe de nouveau : `dist/` est exclu de Biome (le lint échouait après chaque build) et `riddle3.tsx` est reformaté.
+Loveship devient une lettre vivante et privée : l'ancien parcours à énigmes laisse la place à une expérience protégée par mot de passe, entièrement fonctionnelle avec des contenus provisoires.
+
+### Ajouté
+
+- Nouvelle expérience privée : écran d'accès par mot de passe, enveloppe ivoire, lettre révélée au fil de la lecture, seconde enveloppe et promesse, conclusion florale, carte souvenir exportable en PNG.
+- Couche serveur (Vercel Functions) : mot de passe vérifié côté serveur (scrypt), session signée de 365 jours en cookie `HttpOnly`, contenus et ressources servis uniquement avec une session valide.
+- Contenus définitifs prévus dans Vercel Blob privé, avec repli sur des placeholders génériques ; scripts `hash-password` et `upload-asset`.
+- Moteur audio Web Audio à couches synchronisées, silencieux tant qu'aucune musique n'est fournie.
+- Tests (`npm test`), manifest PWA, polices locales, désactivation de l'indexation.
 
 ### Modifié
 
+- L'ancien parcours de la Saint-Valentin est déplacé dans `src/legacy/` : consultable en développement (`?legacy`), absent du build de production.
+- README réécrit : variables d'environnement, sessions, remplacement des placeholders, musique, déploiement, limites du forfait Hobby, archivage.
 - Mises à jour : Biome 2.6, GSAP 3.15, `@types/leaflet` 1.9.22.
 - Configuration Biome migrée vers le format 2.6 (`preset` à la place de `recommended`).
-- README réécrit : parcours, technique et commandes.
+
+### Corrigé
+
+- `npm run lint` passe de nouveau : `dist/` est exclu de Biome (le lint échouait après chaque build) et `riddle3.tsx` est reformaté.
 
 ## [1.0.0] - 2026-11-22
 
@@ -42,5 +55,6 @@ Première version stable : le parcours complet (intro, trois énigmes, lettre) f
 
 - Vitest (aucun test dans le projet), police Montserrat inutilisée, tracé de lignes entre lieux jamais exécuté.
 
-[Non publié]: https://github.com/Armanvr/loveship/compare/1.0.0...HEAD
+[Non publié]: https://github.com/Armanvr/loveship/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/Armanvr/loveship/compare/1.0.0...2.0.0
 [1.0.0]: https://github.com/Armanvr/loveship/releases/tag/1.0.0

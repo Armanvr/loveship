@@ -1,6 +1,262 @@
 @import "tailwindcss";
+@import "@fontsource-variable/cormorant-garamond/wght.css";
+@import "@fontsource-variable/cormorant-garamond/wght-italic.css";
+@import "@fontsource-variable/lora/wght.css";
+@import "@fontsource-variable/lora/wght-italic.css";
 
-html {
-	font-family: "Archivo", sans-serif;
-	font-optical-sizing: auto;
+/* Direction artistique : une lettre précieuse. Couleurs, polices, mesures, ombres et durées vivent ici. */
+@theme static {
+	--color-ivory: #faf6ed;
+	--color-champagne: #e5d3b5;
+	--color-rose: #d9a6ae;
+	--color-bordeaux: #702c3e;
+	--color-ink: #382d29;
+	--color-ivory-deep: #f1e8d6; /* ombres de papier (intérieur d'enveloppe) */
+	--color-ivory-bright: #fffdf8; /* tirages photo */
+
+	--font-display: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia, serif;
+	--font-text: "Lora Variable", Lora, Georgia, serif;
+
+	/* Mesures de lecture */
+	--container-letter: 34rem;
+	--container-wide: 56rem;
+	--spacing-gutter: 1.5rem;
+	--spacing-paragraph: 1.6rem;
+	--spacing-breath: 5rem;
+
+	--shadow-print: 0 1px 2px rgb(56 45 41 / 0.12), 0 10px 28px -8px rgb(56 45 41 / 0.28);
+	--shadow-envelope: 0 2px 3px rgb(56 45 41 / 0.14), 0 22px 50px -14px rgb(56 45 41 / 0.34);
+
+	--ease-paper: cubic-bezier(0.45, 0, 0.2, 1);
+	--duration-light: 2400ms;
+}
+
+/* La couleur du papier évolue avec l'ambiance de la lettre (jamais affichée) ; @property permet de la transitionner. */
+@property --paper {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #faf6ed;
+}
+
+:root {
+	--paper: var(--color-ivory);
+	--sheet-width: min(var(--container-letter), 100% - 2 * var(--spacing-gutter));
+}
+
+html[data-mood="tender"] {
+	--paper: #f9f2e5;
+}
+html[data-mood="intimate"] {
+	--paper: #f7eedd;
+}
+html[data-mood="admiring"] {
+	--paper: #f5ebd8;
+}
+html[data-mood="luminous"] {
+	--paper: #fbf3e0;
+}
+
+@layer base {
+	html {
+		background-color: var(--paper);
+		transition: --paper var(--duration-light) ease;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		min-height: 100svh;
+		overflow-x: clip; /* aucun débordement horizontal ; clip garde le défilement vertical natif */
+		background-color: var(--paper);
+		/* Papier : grain fin + légères irrégularités, très discrets */
+		background-image: url("/textures/paper.svg");
+		background-size: 320px 320px;
+		color: var(--color-ink);
+		font-family: var(--font-text);
+		font-size: 1.0625rem;
+		line-height: 1.8;
+		-webkit-font-smoothing: antialiased;
+		/* Safe areas iOS : la lettre ne passe jamais sous l'encoche ni la barre d'accueil */
+		padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+			env(safe-area-inset-left);
+	}
+
+	::selection {
+		background: color-mix(in srgb, var(--color-rose) 45%, transparent);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-bordeaux);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+}
+
+@layer components {
+	.btn-primary {
+		min-height: 3rem;
+		padding: 0.6rem 2rem;
+		border: 1px solid var(--color-bordeaux);
+		background: var(--color-bordeaux);
+		color: var(--color-ivory);
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		transition:
+			background-color 0.4s,
+			color 0.4s,
+			opacity 0.4s;
+	}
+	.btn-primary:hover:not(:disabled) {
+		background: transparent;
+		color: var(--color-bordeaux);
+	}
+	.btn-primary:disabled {
+		opacity: 0.55;
+		cursor: default;
+	}
+
+	/* Action textuelle discrète (pied d'expérience, nouvelle tentative) */
+	.text-action {
+		min-height: 2.75rem;
+		padding: 0 0.75rem;
+		font-family: var(--font-display);
+		font-size: 1.125rem;
+		font-style: italic;
+		letter-spacing: 0.02em;
+		color: color-mix(in srgb, var(--color-ink) 62%, transparent);
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-underline-offset: 0.3em;
+		transition:
+			color 0.4s,
+			text-decoration-color 0.4s;
+	}
+	.text-action:hover {
+		color: var(--color-bordeaux);
+		text-decoration-color: currentColor;
+	}
+
+	/* --- Lettre --- */
+	.letter {
+		position: relative;
+		width: var(--sheet-width);
+		margin-inline: auto;
+		padding-block: 22svh var(--spacing-breath);
+	}
+	.letter > * + * {
+		margin-top: var(--spacing-paragraph);
+	}
+	.letter-text {
+		text-wrap: pretty;
+	}
+	.letter-poem {
+		margin-top: 3rem;
+		padding-inline-start: 1.1rem;
+		border-inline-start: 1px solid color-mix(in srgb, var(--color-champagne) 80%, transparent);
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: 1.45rem;
+		line-height: 1.55;
+		white-space: pre-line; /* préserve vers et retours à la ligne */
+		text-wrap: pretty;
+	}
+	.letter-poem + .letter-poem {
+		margin-top: 1.9rem;
+	}
+	.letter > .letter-text + .letter-poem {
+		margin-top: 3rem;
+	}
+
+	/* Tirage photographique */
+	.print {
+		width: min(100%, 26rem);
+		margin: 5rem auto;
+		padding: 0.55rem;
+		background: var(--color-ivory-bright);
+		box-shadow: var(--shadow-print);
+		rotate: -0.6deg;
+	}
+	.print[data-side="right"] {
+		rotate: 0.5deg;
+	}
+	.print img {
+		display: block;
+		width: 100%;
+	}
+	.print-frame {
+		background: var(--color-ivory-deep);
+	}
+
+	/* Aquarelle fondue dans l'ivoire */
+	.wash {
+		margin-block: 4rem;
+		mix-blend-mode: multiply;
+		-webkit-mask-image: radial-gradient(ellipse at center, #000 52%, transparent 98%);
+		mask-image: radial-gradient(ellipse at center, #000 52%, transparent 98%);
+	}
+	.wash img {
+		display: block;
+		width: 100%;
+	}
+
+	/* Papier plein cadre, pour les surfaces qui recouvrent la page (première enveloppe) */
+	.paper {
+		background-color: var(--paper);
+		background-image: url("/textures/paper.svg");
+		background-size: 320px 320px;
+	}
+
+	.safe-px {
+		padding-inline: max(1.5rem, env(safe-area-inset-left));
+	}
+}
+
+@media (min-width: 48rem) {
+	body {
+		font-size: 1.1875rem;
+	}
+	:root {
+		--spacing-paragraph: 1.8rem;
+		--spacing-breath: 8rem;
+	}
+	.letter-poem {
+		font-size: 1.75rem;
+		padding-inline-start: 1.6rem;
+	}
+	.print {
+		width: min(100%, 30rem);
+		margin-block: 7rem;
+	}
+	.print[data-side="left"] {
+		translate: -3rem 0;
+	}
+	.print[data-side="right"] {
+		translate: 3rem 0;
+	}
+	/* Sur ordinateur, l'aquarelle déborde largement de la colonne */
+	.wash {
+		position: relative;
+		left: 50%;
+		width: min(60rem, 100vw - 4rem);
+		margin-block: 6rem;
+		translate: -50% 0;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	/* Léger flottement de la première enveloppe ; coupé une fois ouverte */
+	@keyframes envelope-float {
+		50% {
+			transform: translateY(-0.6rem);
+		}
+	}
+	.envelope-float {
+		animation: envelope-float 6s ease-in-out infinite;
+	}
 }

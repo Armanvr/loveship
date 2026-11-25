@@ -1,12 +1,15 @@
-# ignore all node_modules directories
 node_modules/
-
-# ignore all files in the public directory
-public/
 dist/
 
-# ignore env files
+# secrets et configuration locale (seul .env.example est versionné)
 .env
+.env.*
+!.env.example
+.vercel/
+
+# contenus privés définitifs : jamais dans le dépôt, uniquement dans Vercel Blob
+private/
+
 .DS_Store
 .claude/
 .impeccable/hook.cache.json
